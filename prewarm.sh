@@ -41,7 +41,7 @@ if [ ${PREWARM_TYPE} == "FULL" ]; then
   apt-get --quiet install -y jq python-is-python3 python3-pip
   pip install --quiet -r ${SCRIPT_PATH}/requirements.txt
 
-  ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID}
+  python ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID}
   build_lab_exit_code=$?
 
 #  user_count=$(env | egrep '^GC_USERNAME_[0-9]+=' | wc -l)
