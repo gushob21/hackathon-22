@@ -1,0 +1,6 @@
+google
+oauth2client
+google-api-python-client
+datetime
+google-cloud-aiplatform
+google-cloud-storage
