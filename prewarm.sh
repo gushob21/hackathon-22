@@ -39,6 +39,7 @@ build_lab_exit_code=0
 if [ ${PREWARM_TYPE} == "FULL" ]; then
   apt-get --quiet update
   apt-get --quiet install -y jq python-is-python3 python3-pip
+  pip install --upgrade pip
   pip install --quiet -r ${SCRIPT_PATH}/requirements.txt
 
   python ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID}
