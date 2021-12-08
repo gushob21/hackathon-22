@@ -138,7 +138,7 @@ if __name__ == "__main__":
     exit(1)
   project = sys.argv[1]
   print(project)
-  apis = ["bigquery", "bigquerystorage",  "compute", "storage-api", "storage-component", "storage", "aiplatform"]
+  apis = ["bigquery", "bigquerystorage",  "compute", "storage-api", "storage-component", "storage", "aiplatform", "ml"]
   gcs = project + "hackathon-" + datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
   source_bucket_name = "cloud-samples-data"
   source_blob_name = "vertex-ai/community-content/datasets/abalone/abalone.data"
