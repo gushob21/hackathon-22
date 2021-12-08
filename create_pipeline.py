@@ -115,17 +115,23 @@ def set_policy(project_id, policy):
         .setIamPolicy(resource=project_id, body={"policy": policy})
         .execute()
   )
-  print(policy)
   return policy
 
 def run_vertex_pipeline(parameter_values,pipeline_root,service_account):
   """Create vertex pipeline."""
 
   # Instantiate PipelineJob object
-  pl = aiplatform.PipelineJob(display_name="accelerate-hackaton-2022", enable_caching=False, template_path="pipeline.json", parameter_values=parameter_values, pipeline_root=pipeline_root)
+  print("Preparing Vertex pipeline with the followinf parameters")
+  print("SA : " + service_account)
+  print("pipeline_root : " + pipeline_root)
+  print("parameters : " + parameter_values)
+  pl = aiplatform.PipelineJob(display_name="accelerate-hackathon-2022", enable_caching=False, template_path="pipeline.json", parameter_values=parameter_values, pipeline_root=pipeline_root)
 
   # Execute pipeline in Vertex and monitor until completion
-  pl.run(service_account=service_account,sync=True)
+  try:
+    pl.run(service_account=service_account,sync=True)
+  except Exception as e:
+    print(e)
   # Email address of service account to use for the pipeline run
   # You must have iam.serviceAccounts.actAs permission on the service account to use it
 
