@@ -165,7 +165,7 @@ if __name__ == "__main__":
   region = "us-central1"
   test_dataset_folder = "gs://" + gcs + "/data/test_dataset"
   thresholds_dict_str = {"rmse": 20.0}
-  parameter_values = { "bq_dataset": bq_dataset ,"bq_location": bq_location, "bqml_model_export_location": bqml_model_export_location, "bqml_serving_container_image_uri": bqml_serving_container_image_uri, "gcs_batch_prediction_output_prefix": gcs_batch_prediction_output_prefix, "gcs_input_file_uri": gcs_input_file_uri, "project": project, "region": region, "test_dataset_folder": test_dataset_folder, "thresholds_dict_str": thresholds_dict_str }
+  parameter_values = { "bq_dataset": bq_dataset ,"bq_location": bq_location, "bqml_model_export_location": bqml_model_export_location, "bqml_serving_container_image_uri": bqml_serving_container_image_uri, "gcs_batch_prediction_output_prefix": gcs_batch_prediction_output_prefix, "project": project, "region": region, "test_dataset_folder": test_dataset_folder, "thresholds_dict_str": thresholds_dict_str }
   pipeline_root = "gs://" + gcs
   print("Enabling required APIs")
   for api in apis:
