@@ -124,7 +124,8 @@ def run_vertex_pipeline(parameter_values,pipeline_root,service_account):
   print("Preparing Vertex pipeline with the followinf parameters")
   print("SA : " + service_account)
   print("pipeline_root : " + pipeline_root)
-  print("parameters : " + parameter_values)
+  print("parameters : ")
+  print(parameter_values)
   pl = aiplatform.PipelineJob(display_name="accelerate-hackathon-2022", enable_caching=False, template_path="pipeline.json", parameter_values=parameter_values, pipeline_root=pipeline_root)
 
   # Execute pipeline in Vertex and monitor until completion
