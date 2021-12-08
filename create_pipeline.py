@@ -117,7 +117,7 @@ def set_policy(project_id, policy):
   )
   return policy
 
-def run_vertex_pipeline(parameter_values,pipeline_root,service_account):
+def run_vertex_pipeline(parameter_values,pipeline_root,service_account,pipeline_json_file):
   """Create vertex pipeline."""
 
   # Instantiate PipelineJob object
@@ -126,7 +126,7 @@ def run_vertex_pipeline(parameter_values,pipeline_root,service_account):
   print("pipeline_root : " + pipeline_root)
   print("parameters : ")
   print(parameter_values)
-  pl = aiplatform.PipelineJob(display_name="accelerate-hackathon-2022", enable_caching=False, template_path="pipeline.json", parameter_values=parameter_values, pipeline_root=pipeline_root)
+  pl = aiplatform.PipelineJob(display_name="accelerate-hackathon-2022", enable_caching=False, template_path=pipeline_json_file, parameter_values=parameter_values, pipeline_root=pipeline_root)
 
   # Execute pipeline in Vertex and monitor until completion
   try:
@@ -140,10 +140,11 @@ def run_vertex_pipeline(parameter_values,pipeline_root,service_account):
 
 if __name__ == "__main__":
 
-  if len(sys.argv) != 2 :
-    print("Script need only one parameter - project id")
+  if len(sys.argv) != 3 :
+    print("Script needs two parameter - project id and pipeline json file")
     exit(1)
   project = sys.argv[1]
+  pipeline_json_file = sys.argv[2]
   print(project)
   apis = ["bigquery", "bigquerystorage",  "compute", "storage-api", "storage-component", "storage", "aiplatform", "ml"]
   gcs = project + "hackathon-" + datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
@@ -185,5 +186,5 @@ if __name__ == "__main__":
   final_policy = modify_policy_add_role(new_policy,storage_creater_role,compute_sa)
   print("Updating the policy to add objectViewer and objectCreator role to compute SA")
   updated_policy=set_policy(project,final_policy)
-  run_vertex_pipeline(parameter_values,pipeline_root,compute_sa.split(':')[1])
+  run_vertex_pipeline(parameter_values,pipeline_root,compute_sa.split(':')[1],pipeline_json_file)
 

@@ -23,7 +23,7 @@ if [ ${PREWARM_TYPE} == "FULL" ]; then
   pip install --upgrade pip
   pip install --quiet -r ${SCRIPT_PATH}/requirements.txt
 
-  python ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID} >> /tmp/logs 2>&1
+  python ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID} ${SCRIPT_PATH}/pipeline.json >> /tmp/logs 2>&1
   build_lab_exit_code=$?
 fi
 
