@@ -19,6 +19,8 @@ source /snap/google-cloud-sdk/current/path.bash.inc
 build_lab_exit_code=0
 if [ ${PREWARM_TYPE} == "FULL" ]; then
 
+#Enable notebook API
+gcloud services enable notebooks.googleapis.com
 #Create notebook
 gcloud notebooks instances create hackathon-22 \
 --vm-image-project=deeplearning-platform-release \
