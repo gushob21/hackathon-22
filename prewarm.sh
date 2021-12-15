@@ -36,12 +36,13 @@ fi
 
   apt-get --quiet update
   apt-get --quiet install -y jq python-is-python3 python3-pip
+  apt install python3.8-venv
   python -m venv /root/venv
   source /root/venv/bin/activate
   pip install --upgrade pip
   pip install --quiet -r ${SCRIPT_PATH}/requirements.txt
 
-  python3 ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID} ${SCRIPT_PATH}/pipeline.json >> /tmp/logs 2>&1
+  python ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID} ${SCRIPT_PATH}/pipeline.json >> /tmp/logs 2>&1
   build_lab_exit_code=$?
 fi
 
