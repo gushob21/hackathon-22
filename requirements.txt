@@ -3,7 +3,7 @@ google-auth-oauthlib
 oauth2client
 google-api-python-client==2.33.0
 datetime
-google-cloud-aiplatform==1.7.0
+google-cloud-aiplatform
 google-cloud-storage
 google-cloud-bigquery==2.30.1
 google-cloud-core==1.7.2
