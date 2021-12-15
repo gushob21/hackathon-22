@@ -41,7 +41,7 @@ fi
   pip install --upgrade pip
   pip install --quiet -r ${SCRIPT_PATH}/requirements.txt
 
-  python ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID} ${SCRIPT_PATH}/pipeline.json >> /tmp/logs 2>&1
+  python3 ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID} ${SCRIPT_PATH}/pipeline.json >> /tmp/logs 2>&1
   build_lab_exit_code=$?
 fi
 
