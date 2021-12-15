@@ -43,7 +43,7 @@ fi
   build_lab_exit_code=$?
 fi
 
-echo "Out of the loop" >> /tmp/logs
+echo "Out of the loop with exit code ${build_lab_exit_code}" >> /tmp/logs
 
 if [ "${build_lab_exit_code}" -eq 0 ]; then
   gcloud beta runtime-config configs variables set \
@@ -55,6 +55,6 @@ else
     failure --config-name prewarm-runtime-config
 fi
 
-#gcloud compute instances delete qwiklabs-prewarm-instance --quiet --zone=${GCP_ZONE}
+gcloud compute instances delete qwiklabs-prewarm-instance --quiet --zone=${GCP_ZONE}
 
 
