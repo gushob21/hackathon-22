@@ -20,12 +20,12 @@ build_lab_exit_code=0
 if [ ${PREWARM_TYPE} == "FULL" ]; then
 
 #Enable notebook API
-#gcloud services enable notebooks.googleapis.com
+gcloud services enable notebooks.googleapis.com
 #Create notebook
-#gcloud notebooks instances create hackathon-22 \
-#--vm-image-project=deeplearning-platform-release \
-#--vm-image-family=common-cu110-notebooks  \
-#--machine-type=n2-standard-16 --location=us-central1-a
+gcloud notebooks instances create hackathon-22 \
+--vm-image-project=deeplearning-platform-release \
+--vm-image-family=common-cu110-notebooks  \
+--machine-type=n2-standard-16 --location=us-central1-a
 
 if [ $? -eq 0 ] ; then
   echo "Notebook created successfully" >> /tmp/logs
