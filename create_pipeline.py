@@ -129,10 +129,11 @@ def run_vertex_pipeline(parameter_values,pipeline_root,service_account,pipeline_
   pl = aiplatform.PipelineJob(display_name="accelerate-hackathon-2022", enable_caching=False, template_path=pipeline_json_file, parameter_values=parameter_values, pipeline_root=pipeline_root)
 
   # Execute pipeline in Vertex and monitor until completion
-  try:
-    pl.run(service_account=service_account,sync=True)
-  except Exception as e:
-    print(e)
+  #try:
+  #  pl.run(service_account=service_account,sync=True)
+  #except Exception as e:
+  #  print(e)
+  pl.run(service_account=service_account,sync=True)
   # Email address of service account to use for the pipeline run
   # You must have iam.serviceAccounts.actAs permission on the service account to use it
 
