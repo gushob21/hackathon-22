@@ -28,9 +28,9 @@ gcloud notebooks instances create hackathon-22 \
 --machine-type=n2-standard-16 --location=us-central1-a
 
 if [ $? -eq 0 ] ; then
-  echo "Notebook created successfully" >> /tmp/logs 2>&1
+  echo "Notebook created successfully" >> /tmp/logs
 else
-  echo "can not create notebook.Exiting" >> /tmp/logs 2>&1
+  echo "can not create notebook.Exiting" >> /tmp/logs
   exit 1
 fi
 
@@ -42,6 +42,8 @@ fi
   python ${SCRIPT_PATH}/create_pipeline.py ${GCP_PROJECT_ID} ${SCRIPT_PATH}/pipeline.json >> /tmp/logs 2>&1
   build_lab_exit_code=$?
 fi
+
+echo "Out of the loop" >> /tmp/logs
 
 if [ "${build_lab_exit_code}" -eq 0 ]; then
   gcloud beta runtime-config configs variables set \
