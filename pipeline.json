@@ -478,7 +478,7 @@
       }
     },
     "pipelineInfo": {
-      "name": "taxi-fare-prediction"
+      "name": "prediction"
     },
     "root": {
       "dag": {
@@ -498,7 +498,7 @@
                 "display_name": {
                   "runtimeValue": {
                     "constantValue": {
-                      "stringValue": "taxi-fare-prediction_endpoint"
+                      "stringValue": "prediction_endpoint"
                     }
                   }
                 },
@@ -608,7 +608,7 @@
                 "deployed_model_display_name": {
                   "runtimeValue": {
                     "constantValue": {
-                      "stringValue": "taxi-fare-prediction_best"
+                      "stringValue": "prediction_best"
                     }
                   }
                 },
@@ -649,7 +649,7 @@
                 "display_name": {
                   "runtimeValue": {
                     "constantValue": {
-                      "stringValue": "taxi-fare-prediction_bqml"
+                      "stringValue": "prediction_bqml"
                     }
                   }
                 },
