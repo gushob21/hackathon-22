@@ -25,6 +25,11 @@ gcloud notebooks instances create hackathon-22 \
 --vm-image-family=common-cu110-notebooks  \
 --machine-type=n2-standard-16 --location=us-central1-a
 
+if [ $? -eq 0 ] ; then
+  echo "Notebook created successfully"
+else
+  echo "can not create notebook.Exiting"
+  exit 1
 
   apt-get --quiet update
   apt-get --quiet install -y jq python-is-python3 python3-pip
