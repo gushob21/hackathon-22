@@ -55,6 +55,6 @@ else
     failure --config-name prewarm-runtime-config
 fi
 
-gcloud compute instances delete qwiklabs-prewarm-instance --quiet --zone=${GCP_ZONE}
+#gcloud compute instances delete qwiklabs-prewarm-instance --quiet --zone=${GCP_ZONE}
 
 
