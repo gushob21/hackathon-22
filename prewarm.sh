@@ -26,10 +26,11 @@ gcloud notebooks instances create hackathon-22 \
 --machine-type=n2-standard-16 --location=us-central1-a
 
 if [ $? -eq 0 ] ; then
-  echo "Notebook created successfully"
+  echo "Notebook created successfully" >> /tmp/logs 2>&1
 else
-  echo "can not create notebook.Exiting"
+  echo "can not create notebook.Exiting" >> /tmp/logs 2>&1
   exit 1
+fi
 
   apt-get --quiet update
   apt-get --quiet install -y jq python-is-python3 python3-pip
