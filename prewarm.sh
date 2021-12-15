@@ -36,6 +36,8 @@ fi
 
   apt-get --quiet update
   apt-get --quiet install -y jq python-is-python3 python3-pip
+  python -m venv /root/venv
+  source /root/venv/bin/activate
   pip install --upgrade pip
   pip install --quiet -r ${SCRIPT_PATH}/requirements.txt
 
