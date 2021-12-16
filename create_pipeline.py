@@ -45,17 +45,17 @@ def create_gcs(bucket_name):
   bucket = storage_client.create_bucket(bucket_name)
   print("Bucket {} created.".format(bucket.name))
 
-def copy_sample_dataset(source_bucket_name,destination_bucket_name,source_blob_name,destination_blob_name):
-  """Copy sampel data set."""
-
-  storage_client = storage.Client()
-  source_bucket = storage_client.get_bucket(source_bucket_name)
-  source_blob = source_bucket.blob(source_blob_name)
-  destination_bucket = storage_client.get_bucket(destination_bucket_name)
-
-  # copy to new destination
-  new_blob = source_bucket.copy_blob(
-      source_blob, destination_bucket, destination_blob_name)
+# def copy_sample_dataset(source_bucket_name,destination_bucket_name,source_blob_name,destination_blob_name):
+#   """Copy sampel data set."""
+#
+#   storage_client = storage.Client()
+#   source_bucket = storage_client.get_bucket(source_bucket_name)
+#   source_blob = source_bucket.blob(source_blob_name)
+#   destination_bucket = storage_client.get_bucket(destination_bucket_name)
+#
+#   # copy to new destination
+#   new_blob = source_bucket.copy_blob(
+#       source_blob, destination_bucket, destination_blob_name)
 
 
 
@@ -121,7 +121,7 @@ def run_vertex_pipeline(parameter_values,pipeline_root,service_account,pipeline_
   """Create vertex pipeline."""
 
   # Instantiate PipelineJob object
-  print("Preparing Vertex pipeline with the followinf parameters")
+  print("Preparing Vertex pipeline with the following parameters")
   print("SA : " + service_account)
   print("pipeline_root : " + pipeline_root)
   print("parameters : ")
@@ -147,7 +147,7 @@ if __name__ == "__main__":
   project = sys.argv[1]
   pipeline_json_file = sys.argv[2]
   print(project)
-  apis = ["bigquery", "bigquerystorage",  "compute", "storage-api", "storage-component", "storage", "aiplatform", "ml"]
+  apis = ["ml", "bigquery", "bigquerystorage",  "compute", "storage-api", "storage-component", "storage", "aiplatform"]
   gcs = project + "hackathon-" + datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
   source_bucket_name = "cloud-samples-data"
   source_blob_name = "vertex-ai/community-content/datasets/abalone/abalone.data"
@@ -168,6 +168,7 @@ if __name__ == "__main__":
   thresholds_dict_str = {"rmse": 20.0}
   parameter_values = { "bq_dataset": bq_dataset ,"bq_location": bq_location, "bqml_model_export_location": bqml_model_export_location, "bqml_serving_container_image_uri": bqml_serving_container_image_uri, "gcs_batch_prediction_output_prefix": gcs_batch_prediction_output_prefix, "project": project, "region": region, "test_dataset_folder": test_dataset_folder, "thresholds_dict_str": thresholds_dict_str }
   pipeline_root = "gs://" + gcs
+
   print("Enabling required APIs")
   for api in apis:
     enable_apis(project,api)
@@ -175,17 +176,21 @@ if __name__ == "__main__":
   print("Creating GCS")
   create_gcs(gcs)
 
-  print("Copying test data set into the bucket")
-  copy_sample_dataset(source_bucket_name,gcs,source_blob_name,destination_blob_name)
+  #print("Copying test data set into the bucket")
+  #copy_sample_dataset(source_bucket_name,gcs,source_blob_name,destination_blob_name)
 
   print("Getting IAM policy on the projects")
   policy = get_policy(project)
   project_number = get_project_number(project)
   compute_sa = get_compute_sa(project_number)
+
   print("Preparing policy modification")
   new_policy = modify_policy_add_role(policy,storage_viewer_role,compute_sa)
   final_policy = modify_policy_add_role(new_policy,storage_creater_role,compute_sa)
+
   print("Updating the policy to add objectViewer and objectCreator role to compute SA")
   updated_policy=set_policy(project,final_policy)
+
+  #Prepare and run vertex pipeline
   run_vertex_pipeline(parameter_values,pipeline_root,compute_sa.split(':')[1],pipeline_json_file)
 
