@@ -81,7 +81,7 @@
         },
         "outputDefinitions": {
           "artifacts": {
-            "raw_dataset": {
+            "dataset": {
               "artifactType": {
                 "schemaTitle": "system.Dataset",
                 "schemaVersion": "0.0.1"
@@ -161,63 +161,6 @@
                 "schemaTitle": "system.Model",
                 "schemaVersion": "0.0.1"
               }
-            }
-          }
-        }
-      },
-      "comp-split-datasets": {
-        "executorLabel": "exec-split-datasets",
-        "inputDefinitions": {
-          "artifacts": {
-            "raw_dataset": {
-              "artifactType": {
-                "schemaTitle": "system.Dataset",
-                "schemaVersion": "0.0.1"
-              }
-            }
-          },
-          "parameters": {
-            "bq_dataset": {
-              "type": "STRING"
-            },
-            "bq_location": {
-              "type": "STRING"
-            },
-            "project": {
-              "type": "STRING"
-            },
-            "test_dataset_folder": {
-              "type": "STRING"
-            }
-          }
-        },
-        "outputDefinitions": {
-          "artifacts": {
-            "bqml_dataset": {
-              "artifactType": {
-                "schemaTitle": "system.Dataset",
-                "schemaVersion": "0.0.1"
-              }
-            }
-          },
-          "parameters": {
-            "dataset_uri": {
-              "type": "STRING"
-            },
-            "test_dataset_uri": {
-              "type": "STRING"
-            },
-            "test_features_jsonl_filenames": {
-              "type": "STRING"
-            },
-            "test_labels_csv_filename": {
-              "type": "STRING"
-            },
-            "train_dataset_uri": {
-              "type": "STRING"
-            },
-            "validate_dataset_uri": {
-              "type": "STRING"
             }
           }
         }
@@ -348,7 +291,7 @@
               "sh",
               "-ec",
               "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
-              "\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef import_data_to_bigquery(\n    project: str,\n    bq_location: str,\n    bq_dataset: str,\n    raw_dataset: Output[Dataset],\n    table_name_prefix: str = \"taxis\",\n):\n    from google.cloud import bigquery\n\n    # Construct a BigQuery client object.\n    client = bigquery.Client(project=project, location=bq_location)\n\n    def create_dataset_if_not_exist(bq_dataset_id, bq_location):\n        print(\n            \"Checking for existence of bq dataset. If it does not exist, it creates one\"\n        )\n        dataset = bigquery.Dataset(bq_dataset_id)\n        dataset.location = bq_location\n        dataset = client.create_dataset(dataset, exists_ok=True, timeout=300)\n        print(f\"Created dataset {dataset.full_dataset_id} @ {dataset.location}\")\n\n    def import_dataset(table_name_dataset):\n        training_dataset_table_name = f\"{project}.{bq_dataset}.{table_name_dataset}\"\n        query = f\"\"\"\n        CREATE OR REPLACE TABLE\n            `{training_dataset_table_name}`\n           AS\n        SELECT\n          CASE(ABS(MOD(FARM_FINGERPRINT(TO_JSON_STRING(f)), 10)))\n            WHEN 9 THEN 'TEST'\n            WHEN 8 THEN 'VALIDATE'\n            ELSE 'TRAIN' END AS split_col,\n          pickup_longitude,\n          pickup_latitude,\n          dropoff_longitude,\n          dropoff_latitude,\n          total_amount\n        FROM\n          `nyc-tlc.yellow.trips` f\n        LIMIT 10000\n        \"\"\"\n        print(\"Importing the dataset\")\n        query_job = client.query(query)  # Make an API request.\n        query_job.result()\n        print(query.replace(\"\\n\", \" \"))\n        return training_dataset_table_name\n\n    bq_dataset_id = f\"{project}.{bq_dataset}\"\n    create_dataset_if_not_exist(bq_dataset_id, bq_location)\n\n    table_name_dataset = \"dataset\"\n    dataset_uri = import_dataset(table_name_dataset)\n\n    raw_dataset.uri = dataset_uri\n\n"
+              "\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef import_data_to_bigquery(\n    project: str,\n    bq_location: str,\n    bq_dataset: str,\n    dataset: Output[Dataset],\n    table_name_prefix: str = \"taxis\",\n):\n    from google.cloud import bigquery\n\n    # Construct a BigQuery client object.\n    client = bigquery.Client(project=project, location=bq_location)\n\n    def create_dataset_if_not_exist(bq_dataset_id, bq_location):\n        print(\n            \"Checking for existence of bq dataset. If it does not exist, it creates one\"\n        )\n        dataset = bigquery.Dataset(bq_dataset_id)\n        dataset.location = bq_location\n        dataset = client.create_dataset(dataset, exists_ok=True, timeout=300)\n        print(f\"Created dataset {dataset.full_dataset_id} @ {dataset.location}\")\n\n    def import_dataset(table_name_dataset):\n        training_dataset_table_name = f\"{project}.{bq_dataset}.{table_name_dataset}\"\n        query = f\"\"\"\n        CREATE OR REPLACE TABLE\n            `{training_dataset_table_name}`\n           AS\n        SELECT\n          pickup_longitude,\n          pickup_latitude,\n          dropoff_longitude,\n          dropoff_latitude,\n          fare_amount\n        FROM\n          `nyc-tlc.yellow.trips` f\n        WHERE\n          MOD(ABS(FARM_FINGERPRINT(CAST(pickup_datetime AS STRING))), 10000) = 1;\n        \"\"\"\n        print(\"Importing the dataset\")\n        query_job = client.query(query)  # Make an API request.\n        query_job.result()\n        print(query.replace(\"\\n\", \" \"))\n        return training_dataset_table_name\n\n    bq_dataset_id = f\"{project}.{bq_dataset}\"\n    create_dataset_if_not_exist(bq_dataset_id, bq_location)\n\n    table_name_dataset = \"taxifare\"\n    dataset_uri = import_dataset(table_name_dataset)\n\n    dataset.uri = dataset_uri\n\n"
             ],
             "image": "python:3.9"
           }
@@ -415,26 +358,6 @@
             "image": "gcr.io/ml-pipeline/google-cloud-pipeline-components:0.1.7"
           }
         },
-        "exec-split-datasets": {
-          "container": {
-            "args": [
-              "--executor_input",
-              "{{$}}",
-              "--function_to_execute",
-              "split_datasets"
-            ],
-            "command": [
-              "sh",
-              "-c",
-              "(python3 -m ensurepip || python3 -m ensurepip --user) && (PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet                 --no-warn-script-location 'google-cloud-bigquery' 'pandas' 'pyarrow' 'fsspec' 'gcsfs' 'kfp==1.8.2' || PIP_DISABLE_PIP_VERSION_CHECK=1 python3 -m pip install --quiet                 --no-warn-script-location 'google-cloud-bigquery' 'pandas' 'pyarrow' 'fsspec' 'gcsfs' 'kfp==1.8.2' --user) && \"$0\" \"$@\"",
-              "sh",
-              "-ec",
-              "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
-              "\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef split_datasets(\n    project: str,\n    bq_dataset: str,\n    raw_dataset: Input[Dataset],\n    bqml_dataset: Output[Dataset],\n    test_dataset_folder: str,\n    bq_location: str,\n) -> NamedTuple(\n    \"bqml_split\",\n    [\n        (\"dataset_uri\", str),\n        (\"test_features_jsonl_filenames\", list),\n        (\"test_labels_csv_filename\", str),\n        (\"train_dataset_uri\", str),\n        (\"test_dataset_uri\", str),\n        (\"validate_dataset_uri\", str),\n    ],\n):\n    from collections import namedtuple\n\n    import gcsfs\n    from google.cloud import bigquery\n\n    client = bigquery.Client(project=project, location=bq_location)\n\n    def create_separate_tables(splits, training_dataset_table_name):\n        output = {}\n        for s in splits:\n            destination_table_name = f\"taxis_{s}\"\n            query = f\"\"\"\n            CREATE OR REPLACE TABLE `{project}.{bq_dataset}.{destination_table_name}` AS SELECT\n          pickup_longitude,\n          pickup_latitude,\n          dropoff_longitude,\n          dropoff_latitude,\n          total_amount\n          FROM `{training_dataset_table_name}`  f\n          WHERE \n          f.split_col = '{s}'\n          \"\"\"\n            print(f\"Creating table for {s} --> {destination_table_name}\")\n            print(query.replace(\"\\n\", \" \"))\n            output[s] = destination_table_name\n            query_job = client.query(query)  # Make an API request.\n            query_job.result()\n\n        print(output)\n        return output\n\n    def create_bqml_dataset(training_dataset_table_name):\n        bqml_dataset_table_name = \"dataset_bqml\"\n\n        query = f\"\"\"\n        CREATE OR REPLACE TABLE\n          `{project}.{bq_dataset}.{bqml_dataset_table_name}`  AS\n        SELECT\n          pickup_longitude,\n          pickup_latitude,\n          dropoff_longitude,\n          dropoff_latitude,\n          total_amount,\n          CASE(split_col)\n            WHEN 'VALIDATE' THEN 'EVAL'\n            WHEN 'TRAIN' THEN 'TRAIN'\n            WHEN 'TEST' THEN 'TEST'\n        END\n          AS split_col\n        FROM\n          `{project}.{bq_dataset}.{training_dataset_table_name}`  f\n        WHERE\n          split_col IN ('VALIDATE',\n            'TRAIN')\n        \"\"\"\n\n        # print(query)\n        query_job = client.query(query)  # Make an API request.\n        query_job.result()\n        return bqml_dataset_table_name\n\n    def export_test_features_to_gcs(bq_test_table_name, gcs_export_path_prefix):\n        query_string = f\"\"\"\n        SELECT\n          pickup_longitude,\n          pickup_latitude,\n          dropoff_longitude,\n          dropoff_latitude,\n          total_amount\n        FROM `{project}.{bq_dataset}.{bq_test_table_name}`  f\n        \"\"\"\n        print(f\"Exporting test dataset {project}.{bq_dataset}.{bq_test_table_name}\")\n        print(query_string.replace(\"\\n\", \" \"))\n        dataframe = (\n            client.query(query_string)\n            .result()\n            .to_dataframe(\n                # Optionally, explicitly request to use the BigQuery Storage API. As of\n                # google-cloud-bigquery version 1.26.0 and above, the BigQuery Storage\n                # API is used by default.\n                create_bqstorage_client=True,\n            )\n        )\n\n        test_labels_csv_filename = f\"{gcs_export_path_prefix}/test_labels.csv\"\n        labels = dataframe[\"total_amount\"]\n        print(f\"Exporting test labels into {test_labels_csv_filename}\")\n        labels.to_csv(test_labels_csv_filename, index=False, header=True)\n\n        test_features_jsonl_filename = f\"{gcs_export_path_prefix}/test_features.jsonl\"\n        features = dataframe.drop(columns=[\"total_amount\"])\n        jsonl = features.to_json(orient=\"records\", lines=True)\n        gcs = gcsfs.GCSFileSystem()\n        with gcs.open(test_features_jsonl_filename, \"w\") as text_file:\n            text_file.write(jsonl)\n\n        print(f\"Exporting test labels into {test_features_jsonl_filename}\")\n        return test_features_jsonl_filename, test_labels_csv_filename\n\n    table_name_dataset = \"dataset\"\n    dataset_uri = raw_dataset.uri\n    splits = [\"TRAIN\", \"VALIDATE\", \"TEST\"]\n    table_names_dict = create_separate_tables(splits, dataset_uri)\n    bqml_dataset_table_name = create_bqml_dataset(table_name_dataset)\n    test_table_name = table_names_dict[\"TEST\"]\n    (\n        test_features_jsonl_filename,\n        test_labels_csv_filename,\n    ) = export_test_features_to_gcs(test_table_name, test_dataset_folder)\n    dataset_uri = \"bq://\" + dataset_uri\n    train_dataset_uri = f\"bq://{project}.{bq_dataset}.{table_names_dict['TRAIN']}\"\n    test_dataset_uri = f\"bq://{project}.{bq_dataset}.{table_names_dict['TEST']}\"\n    validate_dataset_uri = f\"bq://{project}.{bq_dataset}.{table_names_dict['VALIDATE']}\"\n    bqml_dataset_uri = f\"bq://{project}.{bq_dataset}.{bqml_dataset_table_name}\"\n\n    print(f\"dataset: {dataset_uri}\")\n    print(f\"training: {train_dataset_uri}\")\n    print(f\"test: {test_dataset_uri}\")\n    print(f\"validation: {validate_dataset_uri}\")\n\n    bqml_dataset.uri = bqml_dataset_uri\n    print(bqml_dataset_uri)\n\n    result_tuple = namedtuple(\n        \"bqml_split\",\n        [\n            \"dataset_uri\",\n            \"test_features_jsonl_filenames\",\n            \"test_labels_csv_filename\",\n            \"train_dataset_uri\",\n            \"test_dataset_uri\",\n            \"validate_dataset_uri\",\n        ],\n    )\n\n    return result_tuple(\n        dataset_uri=str(dataset_uri),\n        test_features_jsonl_filenames=[test_features_jsonl_filename],\n        test_labels_csv_filename=test_labels_csv_filename,\n        train_dataset_uri=train_dataset_uri,\n        test_dataset_uri=test_dataset_uri,\n        validate_dataset_uri=validate_dataset_uri,\n    )\n\n"
-            ],
-            "image": "python:3.9"
-          }
-        },
         "exec-train-bqml-model": {
           "container": {
             "args": [
@@ -450,7 +373,7 @@
               "sh",
               "-ec",
               "program_path=$(mktemp -d)\nprintf \"%s\" \"$0\" > \"$program_path/ephemeral_component.py\"\npython3 -m kfp.v2.components.executor_main                         --component_module_path                         \"$program_path/ephemeral_component.py\"                         \"$@\"\n",
-              "\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef train_bqml_model(\n    dataset: Input[Dataset],\n    bqml_model: Output[Artifact],\n    bq_location: str,\n    model_name: str = \"linear_regression_model\",\n    num_trials: int = 4,\n) -> NamedTuple(\"bqml_training\", [(\"query\", str)]):\n    from collections import namedtuple\n\n    from google.cloud import bigquery\n\n    dataset_uri = dataset.uri\n    table_name = dataset_uri.split(\"bq://\")[-1]\n    print(table_name)\n    uri_parts = table_name.split(\".\")\n    print(uri_parts)\n    project = uri_parts[0]\n    bq_dataset = uri_parts[1]\n\n    client = bigquery.Client(project=project, location=bq_location)\n\n    model_table_name = f\"{project}.{bq_dataset}.{model_name}\"\n\n    model_options = \"\"\"OPTIONS\n      ( MODEL_TYPE='LINEAR_REG',\n        LS_INIT_LEARN_RATE=0.15,\n        L1_REG=1,\n        MAX_ITERATIONS=5,\n        DATA_SPLIT_COL='split_col',\n        DATA_SPLIT_METHOD='CUSTOM',\n        input_label_cols=['total_amount']\n\n    \"\"\"\n    if num_trials > 0:\n        model_options += f\"\"\", \n\n        NUM_TRIALS={num_trials},\n        HPARAM_TUNING_OBJECTIVES=['mean_squared_error']\"\"\"\n    model_options += \")\" \"\"\n\n    query = f\"\"\"\n    CREATE OR REPLACE MODEL\n      `{model_table_name}`\n      {model_options}\n     AS\n    SELECT\n      pickup_longitude,\n      pickup_latitude,\n      dropoff_longitude,\n      dropoff_latitude,\n      total_amount,\n      split_col\n    FROM\n      `{table_name}`;\n    \"\"\"\n\n    print(query.replace(\"\\n\", \" \"))\n    query_job = client.query(query)  # Make an API request.\n    print(query_job.job_id)\n    query_job.result()\n    bqml_model.uri = f\"bq://{model_table_name}\"\n    print(bqml_model)\n    print(f\"bq://{model_table_name}\")\n\n    result_tuple = namedtuple(\"bqml_training\", [\"query\"])\n\n    return result_tuple(query=str(query))\n\n"
+              "\nfrom kfp.v2.dsl import *\nfrom typing import *\n\ndef train_bqml_model(\n    dataset: Input[Dataset],\n    bqml_model: Output[Artifact],\n    bq_location: str,\n    model_name: str = \"linear_regression_model\",\n    num_trials: int = 4,\n) -> NamedTuple(\"bqml_training\", [(\"query\", str)]):\n    from collections import namedtuple\n\n    from google.cloud import bigquery\n\n    dataset_uri = dataset.uri\n    table_name = dataset_uri.split(\"bq://\")[-1]\n    print(table_name)\n    uri_parts = table_name.split(\".\")\n    print(uri_parts)\n    project = uri_parts[0]\n    bq_dataset = uri_parts[1]\n\n    client = bigquery.Client(project=project, location=bq_location)\n\n    model_table_name = f\"{project}.{bq_dataset}.{model_name}\"\n\n    model_options = \"\"\"OPTIONS\n      ( MODEL_TYPE='LINEAR_REG',\n        #LS_INIT_LEARN_RATE=0.15,\n        #L1_REG=1,\n        input_label_cols=['fare_amount']\n\n    \"\"\"\n    if num_trials > 0:\n        model_options += f\"\"\", \n\n        NUM_TRIALS={num_trials},\n        HPARAM_TUNING_OBJECTIVES=['mean_squared_error']\"\"\"\n    model_options += \")\" \"\"\n\n    query = f\"\"\"\n    CREATE OR REPLACE MODEL\n      `{model_table_name}`\n      {model_options}\n     AS\n    SELECT\n      pickup_longitude,\n      pickup_latitude,\n      dropoff_longitude,\n      dropoff_latitude,\n      fare_amount\n    FROM\n      `{table_name}`;\n    \"\"\"\n\n    print(query.replace(\"\\n\", \" \"))\n    query_job = client.query(query)  # Make an API request.\n    print(query_job.job_id)\n    query_job.result()\n    bqml_model.uri = f\"bq://{model_table_name}\"\n    print(bqml_model)\n    print(f\"bq://{model_table_name}\")\n\n    result_tuple = namedtuple(\"bqml_training\", [\"query\"])\n\n    return result_tuple(query=str(query))\n\n"
             ],
             "image": "python:3.9"
           }
@@ -478,7 +401,7 @@
       }
     },
     "pipelineInfo": {
-      "name": "prediction"
+      "name": "taxi-fare-prediction"
     },
     "root": {
       "dag": {
@@ -498,7 +421,7 @@
                 "display_name": {
                   "runtimeValue": {
                     "constantValue": {
-                      "stringValue": "prediction_endpoint"
+                      "stringValue": "taxi-fare-prediction_endpoint"
                     }
                   }
                 },
@@ -608,7 +531,7 @@
                 "deployed_model_display_name": {
                   "runtimeValue": {
                     "constantValue": {
-                      "stringValue": "prediction_best"
+                      "stringValue": "taxi-fare-prediction_best"
                     }
                   }
                 },
@@ -649,7 +572,7 @@
                 "display_name": {
                   "runtimeValue": {
                     "constantValue": {
-                      "stringValue": "prediction_bqml"
+                      "stringValue": "taxi-fare-prediction_bqml"
                     }
                   }
                 },
@@ -668,44 +591,6 @@
               "name": "model-upload"
             }
           },
-          "split-datasets": {
-            "cachingOptions": {
-              "enableCache": true
-            },
-            "componentRef": {
-              "name": "comp-split-datasets"
-            },
-            "dependentTasks": [
-              "import-data-to-bigquery"
-            ],
-            "inputs": {
-              "artifacts": {
-                "raw_dataset": {
-                  "taskOutputArtifact": {
-                    "outputArtifactKey": "raw_dataset",
-                    "producerTask": "import-data-to-bigquery"
-                  }
-                }
-              },
-              "parameters": {
-                "bq_dataset": {
-                  "componentInputParameter": "bq_dataset"
-                },
-                "bq_location": {
-                  "componentInputParameter": "bq_location"
-                },
-                "project": {
-                  "componentInputParameter": "project"
-                },
-                "test_dataset_folder": {
-                  "componentInputParameter": "test_dataset_folder"
-                }
-              }
-            },
-            "taskInfo": {
-              "name": "split-datasets"
-            }
-          },
           "train-bqml-model": {
             "cachingOptions": {
               "enableCache": true
@@ -714,14 +599,14 @@
               "name": "comp-train-bqml-model"
             },
             "dependentTasks": [
-              "split-datasets"
+              "import-data-to-bigquery"
             ],
             "inputs": {
               "artifacts": {
                 "dataset": {
                   "taskOutputArtifact": {
-                    "outputArtifactKey": "bqml_dataset",
-                    "producerTask": "split-datasets"
+                    "outputArtifactKey": "dataset",
+                    "producerTask": "import-data-to-bigquery"
                   }
                 }
               },
