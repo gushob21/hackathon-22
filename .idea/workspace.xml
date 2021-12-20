@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5f983e0e-db2e-4c8e-9a72-72fa8b295a16" name="Changes" comment="prewarming code">
+      <change beforePath="$PROJECT_DIR$/vertex-ai/taxi-fare-prediction.ipynb" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="G3PluginsProjectSettings">
+    <appliedSettings>
+      <entry key="LinkifyInternalShortlinks" value="true" />
+      <entry key="RecognizedNullableAnnotations" value="true" />
+    </appliedSettings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="21y8LeB2LMJcDWweNIIVCZzHIW7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="TF_FMT" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5f983e0e-db2e-4c8e-9a72-72fa8b295a16" name="Changes" comment="" />
+      <created>1638901912640</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1638901912640</updated>
+    </task>
+    <task id="LOCAL-00001" summary="prewarming code">
+      <created>1638902309086</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1638902309086</updated>
+    </task>
+    <task id="LOCAL-00002" summary="prewarming code">
+      <created>1638909954967</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1638909954967</updated>
+    </task>
+    <task id="LOCAL-00003" summary="prewarming code">
+      <created>1638913205735</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1638913205735</updated>
+    </task>
+    <task id="LOCAL-00004" summary="prewarming code">
+      <created>1638916477035</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1638916477035</updated>
+    </task>
+    <task id="LOCAL-00005" summary="prewarming code">
+      <created>1638917096604</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1638917096604</updated>
+    </task>
+    <task id="LOCAL-00006" summary="prewarming code">
+      <created>1638930101464</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1638930101464</updated>
+    </task>
+    <task id="LOCAL-00007" summary="prewarming code">
+      <created>1638930388707</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1638930388707</updated>
+    </task>
+    <task id="LOCAL-00008" summary="prewarming code">
+      <created>1638931315567</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1638931315567</updated>
+    </task>
+    <task id="LOCAL-00009" summary="prewarming code">
+      <created>1638932550472</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1638932550472</updated>
+    </task>
+    <task id="LOCAL-00010" summary="prewarming code">
+      <created>1638979415638</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1638979415638</updated>
+    </task>
+    <task id="LOCAL-00011" summary="prewarming code">
+      <created>1638979981049</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1638979981049</updated>
+    </task>
+    <task id="LOCAL-00012" summary="prewarming code">
+      <created>1638991513839</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1638991513839</updated>
+    </task>
+    <task id="LOCAL-00013" summary="prewarming code">
+      <created>1638991540420</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1638991540420</updated>
+    </task>
+    <task id="LOCAL-00014" summary="prewarming code">
+      <created>1638991548089</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1638991548089</updated>
+    </task>
+    <task id="LOCAL-00015" summary="prewarming code">
+      <created>1638997388357</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1638997388357</updated>
+    </task>
+    <task id="LOCAL-00016" summary="prewarming code">
+      <created>1639002696724</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1639002696724</updated>
+    </task>
+    <task id="LOCAL-00017" summary="prewarming code">
+      <created>1639578963551</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1639578963551</updated>
+    </task>
+    <task id="LOCAL-00018" summary="prewarming code">
+      <created>1639579023078</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1639579023078</updated>
+    </task>
+    <task id="LOCAL-00019" summary="prewarming code">
+      <created>1639579475848</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1639579475848</updated>
+    </task>
+    <task id="LOCAL-00020" summary="prewarming code">
+      <created>1639580538590</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1639580538590</updated>
+    </task>
+    <task id="LOCAL-00021" summary="prewarming code">
+      <created>1639581599395</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1639581599395</updated>
+    </task>
+    <task id="LOCAL-00022" summary="prewarming code">
+      <created>1639592310199</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1639592310199</updated>
+    </task>
+    <task id="LOCAL-00023" summary="prewarming code">
+      <created>1639593777190</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1639593777190</updated>
+    </task>
+    <task id="LOCAL-00024" summary="prewarming code">
+      <created>1639599786893</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1639599786893</updated>
+    </task>
+    <task id="LOCAL-00025" summary="prewarming code">
+      <created>1639601146534</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1639601146534</updated>
+    </task>
+    <task id="LOCAL-00026" summary="prewarming code">
+      <created>1639604029020</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1639604029020</updated>
+    </task>
+    <task id="LOCAL-00027" summary="prewarming code">
+      <created>1639605325306</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1639605325306</updated>
+    </task>
+    <task id="LOCAL-00028" summary="prewarming code">
+      <created>1639606360896</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1639606360896</updated>
+    </task>
+    <task id="LOCAL-00029" summary="prewarming code">
+      <created>1639606952653</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1639606952653</updated>
+    </task>
+    <task id="LOCAL-00030" summary="prewarming code">
+      <created>1639607613017</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1639607613017</updated>
+    </task>
+    <task id="LOCAL-00031" summary="prewarming code">
+      <created>1639607894795</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1639607894795</updated>
+    </task>
+    <task id="LOCAL-00032" summary="prewarming code">
+      <created>1639608390369</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1639608390369</updated>
+    </task>
+    <task id="LOCAL-00033" summary="prewarming code">
+      <created>1639669441657</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1639669441657</updated>
+    </task>
+    <task id="LOCAL-00034" summary="prewarming code">
+      <created>1639672743759</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1639672743759</updated>
+    </task>
+    <task id="LOCAL-00035" summary="prewarming code">
+      <created>1639673434012</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1639673434012</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="prewarming code" />
+    <option name="LAST_COMMIT_MESSAGE" value="prewarming code" />
+  </component>
+</project>
