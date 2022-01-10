@@ -25,7 +25,7 @@ gcloud services enable notebooks.googleapis.com
 gcloud notebooks instances create hackathon-22 \
 --vm-image-project=deeplearning-platform-release \
 --vm-image-family=common-cu110-notebooks  \
---machine-type=n2-standard-16 --location=us-central1-a
+--machine-type=n1-standard-16 --location=us-central1-a
 
 if [ $? -eq 0 ] ; then
   echo "Notebook created successfully" >> /tmp/logs
